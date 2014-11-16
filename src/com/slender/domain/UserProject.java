@@ -1,4 +1,6 @@
-
+/*
+ * All source is copyrighted by Slenderware 
+ */
 package com.slender.domain;
 
 import java.io.Serializable;

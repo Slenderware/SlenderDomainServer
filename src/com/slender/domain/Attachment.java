@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * All source is copyrighted by Slenderware 
  */
 package com.slender.domain;
 
@@ -12,10 +11,6 @@ import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Entity;
 
-/**
- *
- * @author Nick
- */
 @Entity
 @XmlRootElement
 public class Attachment implements Serializable{

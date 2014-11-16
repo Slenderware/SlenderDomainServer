@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * All source is copyrighted by Slenderware 
  */
 package com.slender.service.crud.impl;
 import com.slender.domain.Attachment;
