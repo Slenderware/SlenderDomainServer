@@ -23,6 +23,7 @@ public class CommentCrudImpl implements CommentCrud{
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Comment comment = (Comment) session.get(Comment.class, id);
+        session.getTransaction().commit();
         session.close();
         return comment;
     }
@@ -30,9 +31,12 @@ public class CommentCrudImpl implements CommentCrud{
     @Override
     public List<Comment> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         query = session.createQuery("from Comment");
         List<Comment> comments;
         comments = query.list();
+        session.getTransaction().commit();
+        session.close();
         return comments;
     }
 
@@ -81,17 +85,22 @@ public class CommentCrudImpl implements CommentCrud{
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         query = session.createQuery("from Comment");
         List<Comment> comments = query.list();
         int count = comments.size();
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public Comment getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Comment.class);
         Comment entity = (Comment) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -99,8 +108,10 @@ public class CommentCrudImpl implements CommentCrud{
     @Override
     public Comment getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Comment.class);
         Comment entity = (Comment) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -108,8 +119,10 @@ public class CommentCrudImpl implements CommentCrud{
     @Override
     public List<Comment> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Comment.class);
         List<Comment> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -117,8 +130,10 @@ public class CommentCrudImpl implements CommentCrud{
     @Override
     public List<Comment> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Comment.class);
         List<Comment> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

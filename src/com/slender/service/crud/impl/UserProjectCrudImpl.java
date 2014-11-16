@@ -21,7 +21,10 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     public UserProject findById(Integer id) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         UserProject task = (UserProject) session.get(UserProject.class, id);
+        
+        session.getTransaction().commit();
         session.close();
         return task;
     }
@@ -29,9 +32,14 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     @Override
     public List<UserProject> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from UserProject");
         List<UserProject> tasks;
         tasks = query.list();
+        
+        session.getTransaction().commit();
+        session.close();
         return tasks;
     }
 
@@ -39,10 +47,12 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     public UserProject persist(UserProject entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.save(entity);
         session.flush();
         query = session.createSQLQuery("select last_insert_id() from jnct_user_project");
         int id = Integer.parseInt(query.list().get(0).toString());
+        
         session.getTransaction().commit();
         session.close();
         return findById(id);
@@ -52,7 +62,9 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     public void merge(UserProject entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.merge(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -61,7 +73,9 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     public void remove(UserProject entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -69,10 +83,12 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     @Override
     public void removeById(int entityId) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         UserProject entity = new UserProject();
         entity.setId(entityId);
-        session.beginTransaction();
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -80,17 +96,26 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from UserProject");
         List<UserProject> tasks = query.list();
         int count = tasks.size();
+        
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public UserProject getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(UserProject.class);
         UserProject entity = (UserProject) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -98,8 +123,12 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     @Override
     public UserProject getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(UserProject.class);
         UserProject entity = (UserProject) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -107,8 +136,12 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     @Override
     public List<UserProject> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(UserProject.class);
         List<UserProject> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -116,8 +149,12 @@ public class UserProjectCrudImpl implements UserProjectCrud{
     @Override
     public List<UserProject> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(UserProject.class);
         List<UserProject> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

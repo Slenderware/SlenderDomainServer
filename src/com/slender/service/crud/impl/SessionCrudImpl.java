@@ -4,7 +4,6 @@
 package com.slender.service.crud.impl;
 
 import com.slender.domain.Session;
-import com.slender.domain.Session;
 import com.slender.hibernate.HibernateUtil;
 import com.slender.service.crud.SessionCrud;
 import java.util.List;
@@ -21,7 +20,10 @@ public class SessionCrudImpl implements SessionCrud{
     public Session findById(String id) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         Session sess = (Session) session.get(Session.class, id);
+        
+        session.getTransaction().commit();
         session.close();
         return sess;
     }
@@ -29,17 +31,24 @@ public class SessionCrudImpl implements SessionCrud{
     
     public List<Session> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Session");
         List<Session> sesss;
         sesss = query.list();
+        
+        session.getTransaction().commit();
+        session.close();
         return sesss;
     }
 
     public Session persist(Session entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.save(entity);
         session.flush();
+        
         session.getTransaction().commit();
         session.close();
         return entity;
@@ -49,7 +58,9 @@ public class SessionCrudImpl implements SessionCrud{
     public void merge(Session entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.merge(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -58,7 +69,9 @@ public class SessionCrudImpl implements SessionCrud{
     public void remove(Session entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -66,10 +79,12 @@ public class SessionCrudImpl implements SessionCrud{
     
     public void removeById(String entityId) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Session entity = new Session();
         entity.setId(entityId);
-        session.beginTransaction();
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -78,17 +93,26 @@ public class SessionCrudImpl implements SessionCrud{
     
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Session");
         List<Session> sesss = query.list();
         int count = sesss.size();
+        
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     
     public Session getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Session.class);
         Session entity = (Session) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -96,8 +120,12 @@ public class SessionCrudImpl implements SessionCrud{
     
     public Session getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Session.class);
         Session entity = (Session) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -105,8 +133,12 @@ public class SessionCrudImpl implements SessionCrud{
     
     public List<Session> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Session.class);
         List<Session> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -114,8 +146,12 @@ public class SessionCrudImpl implements SessionCrud{
     
     public List<Session> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Session.class);
         List<Session> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

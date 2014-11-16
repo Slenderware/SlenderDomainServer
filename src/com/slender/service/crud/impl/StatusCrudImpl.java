@@ -20,7 +20,10 @@ public class StatusCrudImpl implements StatusCrud{
     public Status findById(Integer id) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         Status status = (Status) session.get(Status.class, id);
+        
+        session.getTransaction().commit();
         session.close();
         return status;
     }
@@ -28,9 +31,14 @@ public class StatusCrudImpl implements StatusCrud{
     @Override
     public List<Status> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Status");
         List<Status> statuss;
         statuss = query.list();
+        
+        session.getTransaction().commit();
+        session.close();
         return statuss;
     }
 
@@ -38,10 +46,12 @@ public class StatusCrudImpl implements StatusCrud{
     public Status persist(Status entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.save(entity);
         session.flush();
         query = session.createSQLQuery("select last_insert_id() from Status");
         int id = Integer.parseInt(query.list().get(0).toString());
+        
         session.getTransaction().commit();
         session.close();
         return findById(id);
@@ -51,7 +61,9 @@ public class StatusCrudImpl implements StatusCrud{
     public void merge(Status entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.merge(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -60,7 +72,9 @@ public class StatusCrudImpl implements StatusCrud{
     public void remove(Status entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -68,10 +82,12 @@ public class StatusCrudImpl implements StatusCrud{
     @Override
     public void removeById(int entityId) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Status entity = new Status();
         entity.setId(entityId);
-        session.beginTransaction();
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -79,17 +95,26 @@ public class StatusCrudImpl implements StatusCrud{
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Status");
         List<Status> statuss = query.list();
         int count = statuss.size();
+        
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public Status getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Status.class);
         Status entity = (Status) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -97,8 +122,12 @@ public class StatusCrudImpl implements StatusCrud{
     @Override
     public Status getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Status.class);
         Status entity = (Status) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -106,8 +135,12 @@ public class StatusCrudImpl implements StatusCrud{
     @Override
     public List<Status> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Status.class);
         List<Status> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -115,8 +148,12 @@ public class StatusCrudImpl implements StatusCrud{
     @Override
     public List<Status> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Status.class);
         List<Status> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

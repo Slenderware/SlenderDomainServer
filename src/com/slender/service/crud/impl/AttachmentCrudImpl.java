@@ -25,6 +25,7 @@ public class AttachmentCrudImpl implements AttachmentCrud {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Attachment attachment = (Attachment) session.get(Attachment.class, id);
+        session.getTransaction().commit();
         session.close();
         return attachment;
     }
@@ -32,9 +33,12 @@ public class AttachmentCrudImpl implements AttachmentCrud {
     @Override
     public List<Attachment> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         query = session.createQuery("from Attachment");
         List<Attachment> attachments;
         attachments = query.list();
+        session.getTransaction().commit();
+        session.close();
         return attachments;
     }
     
@@ -83,17 +87,22 @@ public class AttachmentCrudImpl implements AttachmentCrud {
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         query = session.createQuery("from Attachment");
         List<Attachment> attachments = query.list();
         int count = attachments.size();
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public Attachment getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Attachment.class);
         Attachment entity = (Attachment) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -101,8 +110,10 @@ public class AttachmentCrudImpl implements AttachmentCrud {
     @Override
     public Attachment getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Attachment.class);
         Attachment entity = (Attachment) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -110,8 +121,10 @@ public class AttachmentCrudImpl implements AttachmentCrud {
     @Override
     public List<Attachment> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Attachment.class);
         List<Attachment> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -119,8 +132,10 @@ public class AttachmentCrudImpl implements AttachmentCrud {
     @Override
     public List<Attachment> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Attachment.class);
         List<Attachment> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

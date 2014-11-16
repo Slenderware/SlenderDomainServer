@@ -20,7 +20,10 @@ public class TaskCrudImpl implements TaskCrud{
     public Task findById(Integer id) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         Task task = (Task) session.get(Task.class, id);
+        
+        session.getTransaction().commit();
         session.close();
         return task;
     }
@@ -28,9 +31,14 @@ public class TaskCrudImpl implements TaskCrud{
     @Override
     public List<Task> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Task");
         List<Task> tasks;
         tasks = query.list();
+        
+        session.getTransaction().commit();
+        session.close();
         return tasks;
     }
 
@@ -38,10 +46,12 @@ public class TaskCrudImpl implements TaskCrud{
     public Task persist(Task entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.save(entity);
         session.flush();
         query = session.createSQLQuery("select last_insert_id() from Task");
         int id = Integer.parseInt(query.list().get(0).toString());
+        
         session.getTransaction().commit();
         session.close();
         return findById(id);
@@ -51,7 +61,9 @@ public class TaskCrudImpl implements TaskCrud{
     public void merge(Task entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.merge(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -60,7 +72,9 @@ public class TaskCrudImpl implements TaskCrud{
     public void remove(Task entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -68,10 +82,12 @@ public class TaskCrudImpl implements TaskCrud{
     @Override
     public void removeById(int entityId) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Task entity = new Task();
         entity.setId(entityId);
-        session.beginTransaction();
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -79,17 +95,26 @@ public class TaskCrudImpl implements TaskCrud{
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Task");
         List<Task> tasks = query.list();
         int count = tasks.size();
+        
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public Task getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Task.class);
         Task entity = (Task) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -97,8 +122,12 @@ public class TaskCrudImpl implements TaskCrud{
     @Override
     public Task getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Task.class);
         Task entity = (Task) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -106,8 +135,12 @@ public class TaskCrudImpl implements TaskCrud{
     @Override
     public List<Task> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Task.class);
         List<Task> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -115,8 +148,12 @@ public class TaskCrudImpl implements TaskCrud{
     @Override
     public List<Task> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Task.class);
         List<Task> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

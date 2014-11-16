@@ -20,7 +20,10 @@ public class ProjectCrudImpl implements ProjectCrud{
     public Project findById(Integer id) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         Project project = (Project) session.get(Project.class, id);
+        
+        session.getTransaction().commit();
         session.close();
         return project;
     }
@@ -28,9 +31,14 @@ public class ProjectCrudImpl implements ProjectCrud{
     @Override
     public List<Project> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Project");
         List<Project> projects;
         projects = query.list();
+        
+        session.getTransaction().commit();
+        session.close();
         return projects;
     }
 
@@ -38,10 +46,12 @@ public class ProjectCrudImpl implements ProjectCrud{
     public Project persist(Project entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.save(entity);
         session.flush();
         query = session.createSQLQuery("select last_insert_id() from Project");
         int id = Integer.parseInt(query.list().get(0).toString());
+        
         session.getTransaction().commit();
         session.close();
         return findById(id);
@@ -51,7 +61,9 @@ public class ProjectCrudImpl implements ProjectCrud{
     public void merge(Project entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.merge(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -60,18 +72,22 @@ public class ProjectCrudImpl implements ProjectCrud{
     public void remove(Project entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
 
     @Override
     public void removeById(int entityId) {
-        session = HibernateUtil.getSessionFactory().openSession();
+        session = HibernateUtil.getSessionFactory().openSession(); 
+        session.beginTransaction();
+        
         Project entity = new Project();
         entity.setId(entityId);
-        session.beginTransaction();
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -79,17 +95,26 @@ public class ProjectCrudImpl implements ProjectCrud{
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Project");
         List<Project> projects = query.list();
         int count = projects.size();
+        
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public Project getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Project.class);
         Project entity = (Project) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -97,8 +122,12 @@ public class ProjectCrudImpl implements ProjectCrud{
     @Override
     public Project getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Project.class);
         Project entity = (Project) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -106,8 +135,12 @@ public class ProjectCrudImpl implements ProjectCrud{
     @Override
     public List<Project> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Project.class);
         List<Project> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -115,8 +148,12 @@ public class ProjectCrudImpl implements ProjectCrud{
     @Override
     public List<Project> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Project.class);
         List<Project> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

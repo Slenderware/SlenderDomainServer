@@ -21,6 +21,7 @@ public class CompanyCrudImpl implements CompanyCrud{
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Company company = (Company) session.get(Company.class, id);
+        session.getTransaction().commit();
         session.close();
         return company;
     }
@@ -28,9 +29,12 @@ public class CompanyCrudImpl implements CompanyCrud{
     @Override
     public List<Company> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         query = session.createQuery("from Company");
         List<Company> companys;
         companys = query.list();
+        session.getTransaction().commit();
+        session.close();
         return companys;
     }
 
@@ -79,17 +83,22 @@ public class CompanyCrudImpl implements CompanyCrud{
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         query = session.createQuery("from Company");
         List<Company> companys = query.list();
         int count = companys.size();
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public Company getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Company.class);
         Company entity = (Company) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -97,8 +106,10 @@ public class CompanyCrudImpl implements CompanyCrud{
     @Override
     public Company getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Company.class);
         Company entity = (Company) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -106,8 +117,10 @@ public class CompanyCrudImpl implements CompanyCrud{
     @Override
     public List<Company> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Company.class);
         List<Company> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -115,8 +128,10 @@ public class CompanyCrudImpl implements CompanyCrud{
     @Override
     public List<Company> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(Company.class);
         List<Company> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

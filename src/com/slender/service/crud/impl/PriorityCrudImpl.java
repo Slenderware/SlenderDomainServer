@@ -20,7 +20,10 @@ public class PriorityCrudImpl implements PriorityCrud{
     public Priority findById(Integer id) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         Priority priority = (Priority) session.get(Priority.class, id);
+        
+        session.getTransaction().commit();
         session.close();
         return priority;
     }
@@ -28,9 +31,14 @@ public class PriorityCrudImpl implements PriorityCrud{
     @Override
     public List<Priority> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Priority");
         List<Priority> prioritys;
         prioritys = query.list();
+        
+        session.getTransaction().commit();
+        session.close();
         return prioritys;
     }
 
@@ -38,11 +46,13 @@ public class PriorityCrudImpl implements PriorityCrud{
     public Priority persist(Priority entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.save(entity);
         session.flush();
         query = session.createSQLQuery("select last_insert_id() from Priority");
         int id = Integer.parseInt(query.list().get(0).toString());
         session.getTransaction().commit();
+        
         session.close();
         return findById(id);
     }
@@ -51,7 +61,9 @@ public class PriorityCrudImpl implements PriorityCrud{
     public void merge(Priority entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.merge(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -60,7 +72,9 @@ public class PriorityCrudImpl implements PriorityCrud{
     public void remove(Priority entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -68,10 +82,12 @@ public class PriorityCrudImpl implements PriorityCrud{
     @Override
     public void removeById(int entityId) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Priority entity = new Priority();
         entity.setId(entityId);
-        session.beginTransaction();
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -79,17 +95,26 @@ public class PriorityCrudImpl implements PriorityCrud{
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Priority");
         List<Priority> prioritys = query.list();
         int count = prioritys.size();
+        
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public Priority getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Priority.class);
         Priority entity = (Priority) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -97,8 +122,12 @@ public class PriorityCrudImpl implements PriorityCrud{
     @Override
     public Priority getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Priority.class);
         Priority entity = (Priority) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -106,8 +135,12 @@ public class PriorityCrudImpl implements PriorityCrud{
     @Override
     public List<Priority> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Priority.class);
         List<Priority> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -115,8 +148,12 @@ public class PriorityCrudImpl implements PriorityCrud{
     @Override
     public List<Priority> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Priority.class);
         List<Priority> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }

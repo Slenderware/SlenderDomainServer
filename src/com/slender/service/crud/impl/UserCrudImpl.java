@@ -22,7 +22,10 @@ public class UserCrudImpl implements UserCrud {
     public Users findById(Integer id) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         Users user = (Users) session.get(Users.class, id);
+        
+        session.getTransaction().commit();
         session.close();
         return user;
     }
@@ -31,8 +34,13 @@ public class UserCrudImpl implements UserCrud {
     public List<Users> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
         query = session.createQuery("from Users");
+        session.beginTransaction();
+        
         List<Users> users;
         users = query.list();
+        
+        session.getTransaction().commit();
+        session.close();
         return users;
     }
 
@@ -40,10 +48,12 @@ public class UserCrudImpl implements UserCrud {
     public Users persist(Users entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.save(entity);
         session.flush();
         query = session.createSQLQuery("select last_insert_id() from Users");
         int id = Integer.parseInt(query.list().get(0).toString());
+        
         session.getTransaction().commit();
         session.close();
         return findById(id);
@@ -53,7 +63,9 @@ public class UserCrudImpl implements UserCrud {
     public void merge(Users entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.merge(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -62,7 +74,9 @@ public class UserCrudImpl implements UserCrud {
     public void remove(Users entity) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -70,10 +84,12 @@ public class UserCrudImpl implements UserCrud {
     @Override
     public void removeById(int entityId) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Users entity = new Users();
         entity.setId(entityId);
-        session.beginTransaction();
         session.delete(entity);
+        
         session.getTransaction().commit();
         session.close();
     }
@@ -81,17 +97,26 @@ public class UserCrudImpl implements UserCrud {
     @Override
     public int count() {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         query = session.createQuery("from Users");
         List<Users> users = query.list();
         int count = users.size();
+        
+        session.getTransaction().commit();
+        session.close();
         return count;
     }
 
     @Override
     public Users getByPropertyName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Users.class);
         Users entity = (Users) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -99,8 +124,12 @@ public class UserCrudImpl implements UserCrud {
     @Override
     public Users getByPropertyName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Users.class);
         Users entity = (Users) criteria.add(Restrictions.eq(name, value)).uniqueResult();
+        
+        session.getTransaction().commit();
         session.close();
         return entity;
     }
@@ -109,8 +138,12 @@ public class UserCrudImpl implements UserCrud {
     @Override
     public List<Users> getEntitiesByProperName(String name, String value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Users.class);
         List<Users> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
@@ -118,8 +151,12 @@ public class UserCrudImpl implements UserCrud {
     @Override
     public List<Users> getEntitiesByProperName(String name, int value) {
         session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
         Criteria criteria = session.createCriteria(Users.class);
         List<Users> entities = (List) criteria.add(Restrictions.eq(name, value)).list();
+        
+        session.getTransaction().commit();
         session.close();
         return entities;
     }
