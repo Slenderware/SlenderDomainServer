@@ -4,7 +4,9 @@ SlenderDomainServer
 Slenderware Domain Layer and Crud Services.
 This module contains the Slenderware Domain Layer ob the Slenderware Project
 
-Installation instructions can be found on wiki: https://github.com/Slenderware/SlenderDomainServer/wiki
+Documentation
+-------------
+For the full documentation <a href="https://drive.google.com/open?id=0B1qbAtIikoTfbGJocW43N2lLNjA&authuser=0">click here</a>
 
 Version: 1.26 Date: 11/16/2014
 
