@@ -6,8 +6,7 @@ This module contains the Slenderware Domain Layer ob the Slenderware Project
 
 Documentation
 -------------
-For the full documentation <a href="https://drive.google.com/open?id=0B1qbAtIikoTfbGJocW43N2lLNjA&authuser=0">click here</a>
-
+For the full documentation <a href="https://drive.google.com/file/d/0B1qbAtIikoTfbGJocW43N2lLNjA/view?usp=sharing">click here</a>
 Version: 1.26 Date: 11/16/2014
 
 License and Copyright
